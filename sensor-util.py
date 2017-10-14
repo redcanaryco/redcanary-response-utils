@@ -23,9 +23,9 @@ def log_err(msg):
 
 
 def log_info(msg):
-    """Format msg as INFO and print to stdout.
+    """Format msg and print to stdout.
     """
-    msg = 'INFO: {0}\n'.format(msg)
+    msg = '{0}\n'.format(msg)
     sys.stdout.write(msg)
 
 
