@@ -16,6 +16,12 @@ from cbapi.response import CbEnterpriseResponseAPI
 from cbapi.response.models import Process
 
 
+if sys.version_info.major >= 3:
+    _python3 = True
+else:
+    _python3 = False
+
+
 # Use these to find registry events of interest. Disk device class is probably
 # what you want, but you may also choose to fool with the volume device class
 # as well: '{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}'
@@ -40,7 +46,7 @@ class USBEvent:
 
     def __repr__(self):
         for k,v in self.__dict__.iteritems():
-            print '%s,%s' % (k, v)
+            print('{0},{1}'.format(k, v))
 
     def parse(self):
         path = self.path.split('usbstor#disk&')[1]
@@ -123,7 +129,7 @@ def main():
     else:
         cb = CbEnterpriseResponseAPI()
 
-    output_file = file(output_filename, 'w')
+    output_file = open(output_filename, 'w')
     writer = csv.writer(output_file, quoting=csv.QUOTE_ALL)
 
     header_row = ['endpoint', 'vendor', 'product', 'version', 'serial']
@@ -142,7 +148,8 @@ def main():
         results = usbstor_search(cb, query, query_base=args.query, timestamps=args.timestamps)
 
         for row in results:
-            row = [col.encode('utf8') if isinstance(col, unicode) else col for col in list(row)]
+            if _python3 == False:
+                row = [col.encode('utf8') if isinstance(col, unicode) else col for col in list(row)]
             writer.writerow(row)
 
     output_file.close()
