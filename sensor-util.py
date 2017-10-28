@@ -15,6 +15,12 @@ from cbapi.response import CbEnterpriseResponseAPI
 from cbapi.response.models import Sensor
 
 
+if sys.version_info.major >= 3:
+    _python3 = True
+else:
+    _python3 = False
+
+
 def log_err(msg):
     """Format msg as an ERROR and print to stderr.
     """
@@ -59,7 +65,7 @@ def main():
     else:
         cb = CbEnterpriseResponseAPI()
 
-    output_file = file(output_filename, 'w')
+    output_file = open(output_filename, 'w')
     writer = csv.writer(output_file, quoting=csv.QUOTE_ALL)
 
     header_row = ['computer_name', 
@@ -101,7 +107,7 @@ def main():
     counter = 1
     for sensor in sensors:
         if counter % 10 == 0:
-            print "{0} of {1}".format(counter, num_sensors)
+            print("{0} of {1}".format(counter, num_sensors))
 
         if len(sensor.resource_status) > 0:
             commit_charge = "{0:.2f}".format(float(sensor.resource_status[0]['commit_charge'])/1024/1024)
@@ -131,7 +137,10 @@ def main():
                          commit_charge,
                          sensor.build_version_string]
 
-        row = [col.encode('utf8') if isinstance(col, unicode) else col for col in output_fields]
+        if _python3 == False:
+            row = [col.encode('utf8') if isinstance(col, unicode) else col for col in output_fields]
+        else:
+            row = output_fields
         writer.writerow(row)
 
         counter += 1
