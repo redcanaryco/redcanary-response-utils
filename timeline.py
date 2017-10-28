@@ -170,7 +170,7 @@ def main():
     if args.append == True or args.queryfile is not None:
         file_mode = 'a'
     else:
-        file_mode = 'wb'
+        file_mode = 'w'
 
     if args.days:
         query_base = ' start:-{0}m'.format(args.days*1440)
@@ -203,7 +203,7 @@ def main():
     else:
         queries.append('')
 
-    output_file = file(output_filename, file_mode)
+    output_file = open(output_filename, file_mode)
     writer = csv.writer(output_file)
     writer.writerow(["event_type",
                      "timestamp",
