@@ -97,7 +97,7 @@ def build_whitelist(filename):
 
     whitelist = ''
     for term in terms:
-        whitelist += ' %s'.format(term.strip())
+        whitelist += ' {0}'.format(term.strip())
 
     return whitelist
 
@@ -286,6 +286,8 @@ def main():
                         help="Quick search for only those events with a domain match.")
     parser.add_argument("--port", dest="port", action="store",
                         help="Quick search for only those events involving a specific port.")
+    parser.add_argument("--ipaddr", dest="ipaddr", action="store",
+                        help="Quick search for only those events with an IP match.")
 
     args = parser.parse_args()
 
@@ -307,9 +309,6 @@ def main():
     else:
         query_base = ''
 
-    query_base += ' netconn_count:[{0} to {1}]'.format(args.min_netconn_count,
-                                                       args.max_netconn_count)
-
     if args.servers:
         query_base += ' (host_type:"domain_controller" OR host_type:"server")'
     elif args.workstations:
@@ -328,9 +327,13 @@ def main():
 
     if args.domain:
         query_base += ' domain:%s' % args.domain
-
-    if args.port:
+    elif args.ipaddr:
+        query_base += ' ipaddr:%s' % args.ipaddr
+    elif args.port:
         query_base += ' ipport:%s' % args.port
+    else:
+        query_base += ' netconn_count:[{0} to {1}]'.format(args.min_netconn_count,
+                                                           args.max_netconn_count)
 
     if args.inbound:
         direction = 'Inbound'
