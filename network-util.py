@@ -76,6 +76,12 @@ from cbapi.response import CbEnterpriseResponseAPI
 from cbapi.response.models import Process, Sensor
 
 
+if sys.version_info.major >= 3:
+    _python3 = True
+else:
+    _python3 = False
+
+
 def log_err(msg):
     """Format msg as an ERROR and print to stderr.
     """
@@ -198,7 +204,7 @@ def process_search(cb_conn, query, query_base=None, limit=None,
                             proc.webui_link
                             ))
     except KeyboardInterrupt:
-        print "Caught CTRL-C. Returning what we have . . ."
+        print("Caught CTRL-C. Returning what we have . . .")
 
     return results
 
@@ -299,7 +305,7 @@ def main():
     if args.append == True or args.queryfile is not None:
         file_mode = 'a'
     else:
-        file_mode = 'wb'
+        file_mode = 'w'
 
     # Query buildup
     if args.days:
@@ -369,7 +375,7 @@ def main():
         queries.append('')
 
     # Main routine and output
-    output_file = file(output_filename, file_mode)
+    output_file = open(output_filename, file_mode)
     writer = csv.writer(output_file)
     if args.append is False:
         writer.writerow(["timestamp",
@@ -396,7 +402,9 @@ def main():
             domain=args.domain)
 
         for r in result_set:
-            row = [col.encode('utf8') if isinstance(col, unicode) else col for col in list(r)]
+            row = list(r)
+            if _python3 == False:
+                row = [col.encode('utf8') if isinstance(col, unicode) else col for col in row]
             writer.writerow(row)
 
     output_file.close()
