@@ -10,7 +10,7 @@ Performs the following actions:
 2. Kill associated processes.
 3. Ban offending binary file(s).
 
-### netconn-util.py
+### network-util.py
 Platforms: Carbon Black (Response)
 
 Enumerate network connections based on a wide variety of criteria. Includes
