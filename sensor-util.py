@@ -12,7 +12,7 @@ import os
 import sys
 
 from cbapi.response import CbEnterpriseResponseAPI
-from cbapi.response.models import Sensor
+from cbapi.response.models import Process, Sensor
 
 
 if sys.version_info.major >= 3:
@@ -53,6 +53,10 @@ def main():
     s.add_argument("--ip", type=str,  action="store",
                         help="Target sensor matching IP address (dotted quad).")
 
+    # Health checking
+    parser.add_argument("--process-count", action="store_true",
+                        help="Count processes associated with this sensor. WARNING: May take a long time to finish!")
+
     args = parser.parse_args()
 
     if args.prefix:
@@ -85,7 +89,8 @@ def main():
                   'systemvolume_total_size',
                   'health',
                   'commit_charge_mb',
-                  'build_version_string']
+                  'build_version_string',
+                  'process_count']
     writer.writerow(header_row)
 
     query_base = None
@@ -118,6 +123,11 @@ def main():
         systemvolume_free_size = "{0:.2f}".format(float(sensor.systemvolume_free_size)/1024/1024)
         systemvolume_total_size = "{0:.2f}".format(float(sensor.systemvolume_total_size)/1024/1024)
 
+        if args.process_count == True:
+            process_count = len(cb.select(Process).where('sensor_id:{0}'.format(sensor.id)))
+        else:
+            process_count = ''
+
         output_fields = [sensor.computer_name.lower(),
                          sensor.computer_dns_name.lower(),
                          sensor.group_id,
@@ -135,7 +145,8 @@ def main():
                          systemvolume_total_size,
                          sensor.sensor_health_message,
                          commit_charge,
-                         sensor.build_version_string]
+                         sensor.build_version_string,
+                         process_count]
 
         if _python3 == False:
             row = [col.encode('utf8') if isinstance(col, unicode) else col for col in output_fields]
