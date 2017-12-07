@@ -55,7 +55,7 @@ def main():
 
     # Health checking
     parser.add_argument("--process-count", action="store_true",
-                        help="Count processes associated with this sensor. WARNING: May take a long time to finish!")
+                        help="Count processes associated with this sensor.")
     parser.add_argument("--tamper-count", action="store_true",
                         help="Count tamper events associated with this sensor.")
 
