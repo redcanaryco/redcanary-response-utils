@@ -56,6 +56,8 @@ def main():
     # Health checking
     parser.add_argument("--process-count", action="store_true",
                         help="Count processes associated with this sensor. WARNING: May take a long time to finish!")
+    parser.add_argument("--tamper-count", action="store_true",
+                        help="Count tamper events associated with this sensor.")
 
     args = parser.parse_args()
 
@@ -90,7 +92,8 @@ def main():
                   'health',
                   'commit_charge_mb',
                   'build_version_string',
-                  'process_count']
+                  'process_count',
+                  'tamper_count']
     writer.writerow(header_row)
 
     query_base = None
@@ -128,6 +131,11 @@ def main():
         else:
             process_count = ''
 
+        if args.tamper_count == True:
+            tamper_count = len(cb.select(Process).where('tampered:true AND sensor_id:{0}'.format(sensor.id)))
+        else:
+            tamper_count = ''
+
         output_fields = [sensor.computer_name.lower(),
                          sensor.computer_dns_name.lower(),
                          sensor.group_id,
@@ -146,7 +154,8 @@ def main():
                          sensor.sensor_health_message,
                          commit_charge,
                          sensor.build_version_string,
-                         process_count]
+                         process_count,
+                         tamper_count]
 
         if _python3 == False:
             row = [col.encode('utf8') if isinstance(col, unicode) else col for col in output_fields]
