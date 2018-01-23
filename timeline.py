@@ -12,6 +12,12 @@ from cbapi.response.models import Process, Sensor
 from cbapi.errors import *
 
 
+if sys.version_info.major >= 3:
+    _python3 = True
+else:
+    _python3 = False
+
+
 def log_err(msg):
     """Format msg as an ERROR and print to stderr.
     """
@@ -232,13 +238,15 @@ def main():
     for query in queries:
         result_set = process_search(cb, query, query_base)
 
-        for r in result_set:
+        for row in result_set:
             if output_all == False:
-                event_type = r[0]
+                event_type = row[0]
                 if output_filemods == True and 'filemod' not in event_type:
                     continue
 
-            writer.writerow([e for e in r])
+            if _python3 == False:
+                row = [col.encode('utf8') if isinstance(col, unicode) else col for col in row]
+            writer.writerow(row)
 
     output_file.close()
 
