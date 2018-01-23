@@ -5,6 +5,7 @@ import csv
 import os
 import sys
 from datetime import datetime
+import unicodecsv as csv
 
 # Carbon Black
 from cbapi.response import CbEnterpriseResponseAPI
@@ -210,7 +211,7 @@ def main():
         queries.append('')
 
     output_file = open(output_filename, file_mode)
-    writer = csv.writer(output_file)
+    writer = csv.writer(output_file, encoding='utf-8')
     writer.writerow(["event_type",
                      "timestamp",
                      "hostname",
