@@ -142,7 +142,7 @@ def process_search(cb_conn, query, query_base=None, limit=None,
         query += query_base
 
     log_info("QUERY: {0}".format(query))
-    query_result = cb_conn.select(Process).where(query)
+    query_result = cb_conn.select(Process).where(query).group_by("id")
     query_result_len = len(query_result)
     log_info("RESULT COUNT: {0}".format(query_result_len))
 
