@@ -72,6 +72,8 @@ import re
 import sys
 from datetime import datetime
 
+from common import *
+
 from cbapi.response import CbEnterpriseResponseAPI
 from cbapi.response.models import Process, Sensor
 
@@ -80,20 +82,6 @@ if sys.version_info.major >= 3:
     _python3 = True
 else:
     _python3 = False
-
-
-def log_err(msg):
-    """Format msg as an ERROR and print to stderr.
-    """
-    msg = 'ERROR: {0}\n'.format(msg)
-    sys.stderr.write(msg)
-
-
-def log_info(msg):
-    """Format msg and print to stdout.
-    """
-    msg = '{0}\n'.format(msg)
-    sys.stdout.write(msg)
 
 
 def build_whitelist(filename):
@@ -210,30 +198,7 @@ def process_search(cb_conn, query, query_base=None, limit=None,
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--profile", type=str, action="store",
-                        help="The credentials.response profile to use.")
-
-    # File output
-    parser.add_argument("--append", action="store_true",
-                        help="Append to output file.")
-    parser.add_argument("--prefix", type=str, action="store",
-                        help="Output filename prefix.")
-
-    # Time
-    parser.add_argument("--days", type=int, action="store",
-                        help="Number of days to search.")
-    parser.add_argument("--minutes", type=int, action="store",
-                        help="Number of days to search.")
-
-    # Cb Response inputs
-    # TODO Remove ability to query arbitrarily via this mutually exclusive
-    # grouping. 
-    a = parser.add_mutually_exclusive_group(required=False)
-    a.add_argument("--queryfile", type=str, action="store",
-                   help="File containing queries, one per line.")
-    a.add_argument('--query', type=str, action="store",
-                        help="A single Cb query to execute.")
+    parser = build_cli_parser("Network utility")
 
     # Non-exlusive query terms. Note that we're passing them this way because
     # we can't risk the user passing terms that Cb can't search (i.e., a
