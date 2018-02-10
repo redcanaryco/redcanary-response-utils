@@ -12,6 +12,8 @@ import json
 import os
 import sys
 
+from common import *
+
 from cbapi.response import CbEnterpriseResponseAPI
 from cbapi.response.models import Process
 
@@ -95,29 +97,16 @@ def usbstor_search(cb_conn, query, query_base=None, timestamps=False):
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--profile", type=str, action="store",
-                        help="The credentials.response profile to use.")
-
-    # File output
-    parser.add_argument("--prefix", type=str, action="store",
-                        help="Output filename prefix.")
-
-    # Time
-    parser.add_argument("--days", type=int, action="store",
-                        help="Number of days to search.")
-    parser.add_argument("--minutes", type=int, action="store",
-                        help="Number of days to search.")
-
-    # Cb Response inputs
-    parser.add_argument("--query", type=str, action="store",
-                        help="A Cb query to limit results.")
+    parser = build_cli_parser("USB utility")
 
     # Output options
     parser.add_argument("--timestamps", action="store_true",
                         help="Include timestamps in results.")
 
     args = parser.parse_args()
+
+    if args.queryfile:
+        sys.exit("queryfile not supported in this utility")
 
     if args.prefix:
         output_filename = '%s-usbstor.csv' % args.prefix
