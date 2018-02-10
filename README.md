@@ -20,6 +20,12 @@ support for:
 - filtering by host type (Workstation or Server)
 - more
 
+### process-util.py
+Platforms: Carbon Black (Response)
+
+Enumerate processes. This is a performant alternative to timeline.py if you
+wish to quickly examine process start events only.
+
 ### sensor-util.py
 Platforms: Carbon Black (Response)
 
