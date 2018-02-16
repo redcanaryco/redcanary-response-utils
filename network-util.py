@@ -151,7 +151,7 @@ def process_search(cb_conn, query, query_base=None, limit=None,
             username = proc.username.lower()
 
             inspect_counter = 0
-            for netconn in proc.netconns:
+            for netconn in proc.all_netconns():
                 inspect_counter += 1
                 if inspect_counter > limit:
                     log_info("Reached inspect-limit ({0})".format(limit))
