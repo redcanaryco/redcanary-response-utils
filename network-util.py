@@ -7,12 +7,12 @@ Extract network connection data from Cb Response based on one or more
 criteria:
 
 - Time (past N minutes, days)
-- CbER query match
-- CbER query whitelist
+- CbR query match
+- CbR query whitelist
 - IP whitelist w/ one or more of: specific addresses, loopback, multicast.
 - Host type: workstation or server
 
-Results are written to a file named . . . wait for it . . . results.csv.
+Results are written to a file named netconns.csv.
 
 USE CASES AND EXAMPLES
 
@@ -112,10 +112,6 @@ def get_hosts(filename):
         filtered_hosts.add(host)
 
     return filtered_hosts
-
-
-def convert_timestamp(datetime_obj):
-    return datetime_obj.strftime('%Y%m%d-%H%M%S')
 
 
 def process_search(cb_conn, query, query_base=None, limit=None,
@@ -245,12 +241,6 @@ def main():
     parser.add_argument("--inspect-limit", dest="inspect_limit", type=int,
                         action="store", default="5000",
                         help="Limit netconns per process that we inspect (default: 5000.")
-    parser.add_argument("--min-netconn-count", type=int, action="store",
-                        default="1", 
-                        help="Minimum network connections associated with process.")
-    parser.add_argument("--max-netconn-count", type=int, action="store",
-                        default="5000", 
-                        help="Minimum network connections associated with process.")
 
     # Shortcuts for speed
     parser.add_argument("--domain", dest="domain", action="store",
@@ -303,8 +293,7 @@ def main():
     elif args.port:
         query_base += ' ipport:%s' % args.port
     else:
-        query_base += ' netconn_count:[{0} to {1}]'.format(args.min_netconn_count,
-                                                           args.max_netconn_count)
+        query_base += ' netconn_count:[1 TO *]'
 
     if args.inbound:
         direction = 'Inbound'
