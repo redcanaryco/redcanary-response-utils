@@ -48,8 +48,7 @@ def get_process_details(process):
             ]
 
 
-def process_search(cb_conn, query, query_base=None)
-
+def process_search(cb_conn, query, query_base=None):
     if query_base != None:
         query += query_base
 
