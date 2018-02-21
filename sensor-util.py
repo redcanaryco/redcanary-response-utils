@@ -59,6 +59,9 @@ def main():
     parser.add_argument("--tamper-count", action="store_true",
                         help="Count tamper events associated with this sensor.")
 
+    parser.add_argument("--checkin-ip", action="store_true",
+                        help="Return the latest public IP associated with the sensor.")
+
     args = parser.parse_args()
 
     if args.prefix:
@@ -93,7 +96,8 @@ def main():
                   'commit_charge_mb',
                   'build_version_string',
                   'process_count',
-                  'tamper_count']
+                  'tamper_count',
+                  'checkin_ip']
     writer.writerow(header_row)
 
     query_base = None
@@ -131,6 +135,11 @@ def main():
         else:
             process_count = ''
 
+        if args.checkin_ip == True:
+            checkin_ip = cb.select(Process).where('sensor_id:{0}'.format(sensor.id)).first().comms_ip
+        else:
+            checkin_ip = ''
+
         if args.tamper_count == True:
             tamper_count = len(cb.select(Process).where('tampered:true AND sensor_id:{0}'.format(sensor.id)))
         else:
@@ -155,7 +164,8 @@ def main():
                          commit_charge,
                          sensor.build_version_string,
                          process_count,
-                         tamper_count]
+                         tamper_count,
+                         checkin_ip]
 
         if _python3 == False:
             row = [col.encode('utf8') if isinstance(col, unicode) else col for col in output_fields]
