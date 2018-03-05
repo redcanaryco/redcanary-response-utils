@@ -140,6 +140,8 @@ def main():
                 checkin_ip = cb.select(Process).where('sensor_id:{0}'.format(sensor.id)).first().comms_ip
             except AttributeError:
                 checkin_ip = ''
+        else:
+            checkin_ip = ''
 
         if args.tamper_count == True:
             tamper_count = len(cb.select(Process).where('tampered:true AND sensor_id:{0}'.format(sensor.id)))
