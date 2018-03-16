@@ -1,5 +1,19 @@
 Tools to automate and/or expedite response.
 
+### Setup
+
+```
+git clone git@github.com:redcanaryco/redcanary-response-utils.git
+
+mkvirtualenv redcanary-response-utils
+
+python setup.py develop
+
+
+./sensor-util.py
+
+```
+
 ### cblr-basic.py
 Platforms: Carbon Black (Response)
 
