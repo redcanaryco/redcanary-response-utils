@@ -89,7 +89,7 @@ def usbstor_search(cb_conn, query, query_base=None, timestamps=False):
                                     usb_result.version,
                                     usb_result.serial]
                     if timestamps == True:
-                        output_fields.insert(0, regmod.timestamp)
+                        output_fields.insert(0, convert_timestamp(regmod.timestamp))
 
                     results.add(tuple(output_fields))
 
