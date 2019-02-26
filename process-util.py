@@ -48,15 +48,11 @@ def get_process_details(process):
             ]
 
 
-def process_search(cb_conn, query, query_base=None, groupby=None):
+def process_search(cb_conn, query, query_base=None):
     if query_base != None:
         query += query_base
 
     query_result = cb_conn.select(Process).where(query)
-
-    if groupby != None:
-        query_result = query_result.group_by(groupby)
-
     query_result_len = len(query_result)
     log_info('Total results: {0}'.format(query_result_len))
 
@@ -78,8 +74,6 @@ def process_search(cb_conn, query, query_base=None, groupby=None):
 
 def main():
     parser = build_cli_parser("Process utility")
-    parser.add_argument("--groupby", type=str, action="store",
-                        help="Group process results")
     args = parser.parse_args()
 
     # BEGIN Common 
@@ -104,11 +98,6 @@ def main():
         cb = CbEnterpriseResponseAPI(profile=args.profile)
     else:
         cb = CbEnterpriseResponseAPI()
-
-    if args.groupby:
-        groupby = args.groupby
-    else:
-        groupby = None
 
     queries = []
     if args.query:
@@ -138,7 +127,7 @@ def main():
                      ])
 
     for query in queries:
-        result_set = process_search(cb, query, query_base, groupby)
+        result_set = process_search(cb, query, query_base)
 
         for row in result_set:
             if _python3 == False:
