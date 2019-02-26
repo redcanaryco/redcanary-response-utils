@@ -154,8 +154,10 @@ def process_search(cb_conn, query, query_base=None, limit=None,
                     log_info("Reached inspect-limit ({0})".format(limit))
                     break
 
-                src_ip = ipaddress.ip_address(netconn.local_ip)
-                dst_ip = ipaddress.ip_address(netconn.remote_ip)
+                if netconn.local_ip != "":
+                    src_ip = ipaddress.ip_address(netconn.local_ip)
+                if netconn.remote_ip != "":
+                    dst_ip = ipaddress.ip_address(netconn.remote_ip)
 
                 if direction is not None and direction != netconn.direction:
                     continue
