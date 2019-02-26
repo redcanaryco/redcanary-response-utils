@@ -135,6 +135,7 @@ def main():
                      "proc_modload_count",
                      "proc_netconn_count",
                      "proc_url"
+                     "parent_name"
                      ])
 
     for query in queries:
