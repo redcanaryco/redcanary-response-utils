@@ -123,7 +123,8 @@ def main():
                      "proc_filemod_count",
                      "proc_modload_count",
                      "proc_netconn_count",
-                     "proc_url"
+                     "proc_url",
+                     "parent_name"
                      ])
 
     for query in queries:
