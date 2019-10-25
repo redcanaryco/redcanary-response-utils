@@ -98,6 +98,7 @@ def main():
                   'build_version_string',
                   'process_count',
                   'tamper_count',
+                  'clock_delta',
                   'checkin_ip']
     writer.writerow(header_row)
 
@@ -170,6 +171,7 @@ def main():
                          sensor.build_version_string,
                          process_count,
                          tamper_count,
+                         sensor.clock_delta,
                          checkin_ip]
 
         if _python3 == False:
