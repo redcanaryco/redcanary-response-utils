@@ -12,7 +12,7 @@ import json
 import os
 import sys
 
-from common import *
+from redcanary.responseutils.common import *
 
 from cbapi.response import CbEnterpriseResponseAPI
 from cbapi.response.models import Process

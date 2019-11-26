@@ -73,7 +73,7 @@ import sys
 from datetime import datetime
 
 # Red Canary
-from common import *
+from redcanary.responseutils.common import *
 
 from cbapi.response import CbEnterpriseResponseAPI
 from cbapi.response.models import Process, Sensor

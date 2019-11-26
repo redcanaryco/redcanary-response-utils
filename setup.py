@@ -18,7 +18,7 @@ def find_scripts():
 
 
 setup(
-    name='cb-response-surveyor',
+    name='redcanary-responseutils',
     author='Keith McCammon',
     author_email='keith@redcanary.com',
     url='https://github.com/redcanaryco/redcanary-response-utils',

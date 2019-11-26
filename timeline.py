@@ -7,7 +7,7 @@ import sys
 from datetime import datetime
 
 # Red Canary
-from common import *
+from redcanary.responseutils.common import *
 
 # Carbon Black
 from cbapi.response import CbEnterpriseResponseAPI
