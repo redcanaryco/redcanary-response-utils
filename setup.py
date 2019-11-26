@@ -18,7 +18,7 @@ def find_scripts():
 
 
 setup(
-    name='redcanary-responseutils',
+    name='redcanary-response-utils',
     author='Keith McCammon',
     author_email='keith@redcanary.com',
     url='https://github.com/redcanaryco/redcanary-response-utils',
