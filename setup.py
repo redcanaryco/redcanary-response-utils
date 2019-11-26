@@ -10,7 +10,7 @@ def read(fname):
 
 def find_scripts():
     scripts = []
-    exclude = ['common.py', 'setup.py']
+    exclude = ['setup.py']
     for file in os.scandir('.'):
         if file.name.endswith('.py') and file.is_file() and (file.name not in exclude):
             scripts.append(file.name)
