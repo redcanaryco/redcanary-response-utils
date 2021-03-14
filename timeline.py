@@ -196,6 +196,7 @@ def main():
         f.close()
     else:
         queries.append('')
+
     if _python3:
         file = open(filename, file_mode, encoding='utf-8')
     else:
