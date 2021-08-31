@@ -197,7 +197,10 @@ def main():
     else:
         queries.append('')
 
-    file = open(filename, file_mode)
+    if _python3:
+        file = open(filename, file_mode, encoding='utf-8')
+    else:
+        file = open(filename, file_mode)
     writer = csv.writer(file)
     writer.writerow(["event_type",
                      "timestamp",
